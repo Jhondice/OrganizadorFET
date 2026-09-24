@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* Paleta institucional FET (verde y amarillo institucionales). Definir los colores aquí
+   (en vez de en la config de JS) es la forma de Tailwind v4 de generar automáticamente
+   las utilidades bg-fet-green, text-fet-green, border-fet-green, etc. */
+@theme {
+  --color-fet-green: #005C29;
+  --color-fet-darkgreen: #00431e;
+  --color-fet-yellow: #EDBB00;
+}
+
+html, body { background-color: #f1f5f9; }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
+
+/* ───────── Toasts ───────── */
+@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes toast-out { from { opacity: 1; } to { opacity: 0; transform: translateY(-8px); } }
+.animate-toast-in { animation: toast-in .18s ease-out; }
+.animate-toast-out { animation: toast-out .18s ease-in forwards; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.animate-spin { animation: spin 1s linear infinite; }
+
+/* ───────── Impresión: sólo el contenido del informe/reporte, sin cabecera ni controles ───────── */
+@media print {
+  header, footer, nav, #toast-root, #modal-root, [data-role="nav"] { display: none !important; }
+  body, html { background: #fff !important; }
+  #view-root { padding: 0 !important; }
+  #print-area { border: none !important; box-shadow: none !important; }
+  button { display: none !important; }
+}
