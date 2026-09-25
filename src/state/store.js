@@ -7,6 +7,7 @@ import { createRemoteClient } from '../api/remoteClient.js';
 import { ApiError } from '../api/errors.js';
 
 const CONN_KEY = 'fet.seguimiento.conexion.v1';
+const DEFAULT_REMOTE_URL = 'https://script.google.com/macros/s/AKfycbwhPFpARBKKgFqJ3oWuYSSTUXMPzDgXT8BdJKBxD8mqxODa5ycFbjT-jndKPDctsnu-/exec';
 
 function loadSavedConnection() {
   try {
@@ -129,7 +130,7 @@ function latestPeriod(catalogs) {
 }
 
 export function defaultApiUrl() {
-  try { return (import.meta.env && import.meta.env.VITE_API_URL) || ''; } catch { return ''; }
+  try { return (import.meta.env && import.meta.env.VITE_API_URL) || DEFAULT_REMOTE_URL; } catch { return DEFAULT_REMOTE_URL; }
 }
 
 export function describeError(err) {
