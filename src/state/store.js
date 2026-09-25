@@ -78,17 +78,21 @@ export async function connectLocal() {
 
 export async function connectRemote(url, userToken) {
   const trimmed = String(url || '').trim();
+  const normalizedToken = String(userToken || '').trim();
   if (!/^https:\/\/script\.google(?:usercontent)?\.com\/.*\/exec$/.test(trimmed)) {
     throw new ApiError('VALIDATION', 'La URL debe ser la de una implementación de Apps Script terminada en /exec.');
+  }
+  if (!normalizedToken) {
+    throw new ApiError('VALIDATION', 'Ingrese un token de acceso.');
   }
   const candidate = createRemoteClient(trimmed);
   // No se notifica el estado global mientras se intenta conectar: así un intento fallido
   // no borra lo que la persona ya escribió en el formulario (ver views/configuracion.js).
-  await candidate.call('ping', {}, userToken);
+  await candidate.call('ping', {}, normalizedToken);
   client = candidate;
-  token = userToken;
+  token = normalizedToken;
   setState({ mode: 'remote' });
-  saveConnection({ url: trimmed, token: userToken });
+  saveConnection({ url: trimmed, token: normalizedToken });
   await loadBootstrap();
 }
 
