@@ -54,9 +54,10 @@ function shellHtml() {
       </nav>
     </header>
     <main class="mx-auto max-w-[1400px] px-3 py-4 sm:px-6 sm:py-6" id="view-root"></main>
-    <footer class="mx-auto max-w-[1400px] px-4 pb-8 pt-2 text-center text-[11px] text-slate-400 sm:px-6">
-      Fundación Escuela Tecnológica de Neiva "Jesús Oviedo Pérez" · Código abierto en GitHub
-      · Datos ${isLocal ? 'almacenados localmente (modo demostración)' : 'sincronizados con Google Sheets'}
+    <footer class="mx-auto max-w-[1400px] border-t border-slate-200 px-4 pb-8 pt-4 text-center text-[11px] text-slate-400 sm:px-6">
+      <div class="font-semibold tracking-[0.08em] text-slate-600 uppercase">Fundación Escuela Tecnológica de Neiva "Jesús Oviedo Pérez"</div>
+      <div class="mt-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">Dirección Programa de Software</div>
+      <div class="mt-2 text-slate-400">Código abierto en GitHub · Datos ${isLocal ? 'almacenados localmente (modo demostración)' : 'sincronizados con Google Sheets'}</div>
     </footer>`;
 }
 
