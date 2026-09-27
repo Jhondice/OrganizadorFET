@@ -35,6 +35,13 @@ describe('vistas (sin gráficos de Chart.js, que requieren canvas real)', () => 
     document.body.appendChild(div);
     assert.doesNotThrow(() => plan.mount(div));
     assert.ok(div.querySelectorAll('[data-row]').length >= 1);
+    assert.ok(div.querySelector('[data-view]'));
+    div.querySelector('[data-view]').click();
+    const details = document.querySelector('#modal-root [role="dialog"]');
+    assert.ok(details);
+    assert.ok(details.textContent.includes('Información de la actividad'));
+    assert.ok(details.textContent.includes('Informes de avance'));
+    details.querySelector('[data-role="close"]').click();
     assert.equal(div.querySelector('[data-role="estado"]').value, 'ACTIVAS');
     assert.ok([...div.querySelectorAll('[data-row]')].every((row) => store.state.activities.find((activity) => String(activity.id) === row.dataset.row)?.estado !== 'Completada'));
     div.querySelector('[data-role="q"]').dispatchEvent(new window.Event('input', { bubbles: true }));

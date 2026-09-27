@@ -6,6 +6,7 @@ import { formatDate, todayISO } from '../utils/dates.js';
 import { toCsv, downloadFile } from '../utils/csv.js';
 import { state, isReadOnly, createActivity, updateActivity, deleteActivity } from '../state/store.js';
 import { openActivityModal } from '../ui/activityModal.js';
+import { openActivityDetailsModal } from '../ui/activityDetailsModal.js';
 import { confirmDialog } from '../ui/confirm.js';
 import { toast } from '../ui/toast.js';
 import { ApiError } from '../api/errors.js';
@@ -38,11 +39,13 @@ function rowHtml(a, readOnly) {
       <td class="border-r border-slate-100 px-3 py-2.5 text-center">${statusBadge(a.estado_efectivo)}</td>
       <td class="border-r border-slate-100 max-w-xs truncate px-3 py-2.5 italic text-slate-500">${esc(a.observaciones) || '-'}</td>
       <td class="px-3 py-2.5 text-center">
-        ${readOnly ? '<span class="text-slate-300">—</span>' : `
         <div class="flex items-center justify-center gap-1">
+          <button data-view="${a.id}" title="Ver detalles" aria-label="Ver detalles de ${esc(a.nombre)}" class="rounded p-1 text-slate-600 hover:bg-slate-100">${icon('search', 'w-4 h-4')}</button>
+          ${readOnly ? '' : `
           <button data-edit="${a.id}" title="Editar" class="rounded p-1 text-blue-600 hover:bg-blue-50">${icon('edit-3', 'w-4 h-4')}</button>
           <button data-delete="${a.id}" title="Eliminar" class="rounded p-1 text-rose-600 hover:bg-rose-50">${icon('trash-2', 'w-4 h-4')}</button>
-        </div>`}
+        `}
+        </div>
       </td>
     </tr>`;
 }
@@ -130,8 +133,17 @@ export function mount(root) {
   if (newBtn) newBtn.addEventListener('click', () => openActivityModal({ catalogs: state.catalogs, onSubmit: (payload) => createActivity(payload) }));
 
   tbody.addEventListener('click', async (e) => {
+    const viewId = e.target.closest('[data-view]')?.dataset.view;
     const editId = e.target.closest('[data-edit]')?.dataset.edit;
     const delId = e.target.closest('[data-delete]')?.dataset.delete;
+    if (viewId) {
+      const activity = state.activities.find((a) => a.id === Number(viewId));
+      if (activity) {
+        const decorated = decorate([activity], todayISO())[0];
+        openActivityDetailsModal(decorated, state.reports);
+      }
+      return;
+    }
     if (editId) {
       const activity = state.activities.find((a) => a.id === Number(editId));
       if (activity) openActivityModal({ activity, catalogs: state.catalogs, onSubmit: (payload) => updateActivity(activity.id, payload) });
