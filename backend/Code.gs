@@ -496,6 +496,8 @@ function onOpen() {
       .addItem('1. Configurar hojas y tokens (setup)', 'setup')
       .addItem('Mostrar tokens de acceso', 'showTokens')
       .addItem('Regenerar tokens', 'rotateTokens')
+      .addItem('Configurar recordatorios diarios', 'setupActivityReminders')
+      .addItem('Autorizar recordatorios por correo', 'authorizeActivityReminders')
       .addSeparator()
       .addItem('Cargar datos de ejemplo', 'seedDemoData')
       .addToUi();
