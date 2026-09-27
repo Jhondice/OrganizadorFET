@@ -50,7 +50,7 @@ function rowHtml(a, readOnly) {
       <td class="border-r border-slate-100 max-w-xs truncate px-3 py-2.5 italic text-slate-500">${esc(a.observaciones) || '-'}</td>
       <td class="px-3 py-2.5 text-center">
         <div class="flex items-center justify-center gap-1">
-          <button data-view="${a.id}" title="Ver actividad" aria-label="Ver actividad ${esc(a.nombre)}" class="rounded p-1 text-emerald-700 hover:bg-emerald-50">${icon('info', 'w-4 h-4')}</button>
+          <button data-view="${a.id}" title="Ver detalles" aria-label="Ver detalles de ${esc(a.nombre)}" class="rounded p-1 text-slate-600 hover:bg-slate-100">${icon('search', 'w-4 h-4')}</button>
           ${readOnly ? '' : `
           <button data-edit="${a.id}" title="Editar" class="rounded p-1 text-blue-600 hover:bg-blue-50">${icon('edit-3', 'w-4 h-4')}</button>
           <button data-delete="${a.id}" title="Eliminar" class="rounded p-1 text-rose-600 hover:bg-rose-50">${icon('trash-2', 'w-4 h-4')}</button>
@@ -156,8 +156,11 @@ export function mount(root, plan = PLANS.DOCENTE) {
     const editId = e.target.closest('[data-edit]')?.dataset.edit;
     const delId = e.target.closest('[data-delete]')?.dataset.delete;
     if (viewId) {
-      const activity = filtered(plan).find((a) => a.id === Number(viewId));
-      if (activity) openActivityDetailsModal(activity);
+      const activity = state.activities.find((a) => a.id === Number(viewId));
+      if (activity) {
+        const decorated = decorate([activity], todayISO())[0];
+        openActivityDetailsModal(decorated, state.reports);
+      }
       return;
     }
     if (editId) {
