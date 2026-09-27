@@ -10,7 +10,7 @@ import { confirmDialog } from '../ui/confirm.js';
 import { toast } from '../ui/toast.js';
 import { ApiError } from '../api/errors.js';
 
-const filter = { q: '', tipo: 'TODOS', estado: 'TODOS', periodo: 'TODOS' };
+const filter = { q: '', tipo: 'TODOS', estado: 'ACTIVAS', periodo: 'TODOS' };
 
 function filtered() {
   const acts = decorate(state.activities, todayISO());
@@ -18,7 +18,8 @@ function filtered() {
   return acts
     .filter((a) => !q || a.nombre.toLowerCase().includes(q) || a.responsable.toLowerCase().includes(q))
     .filter((a) => filter.tipo === 'TODOS' || a.tipo === filter.tipo)
-    .filter((a) => filter.estado === 'TODOS' || a.estado_efectivo === filter.estado)
+    .filter((a) => filter.estado === 'TODOS'
+      || (filter.estado === 'ACTIVAS' ? a.estado_efectivo !== 'Completada' : a.estado_efectivo === filter.estado))
     .filter((a) => filter.periodo === 'TODOS' || a.periodo === filter.periodo)
     .sort((a, b) => a.periodo.localeCompare(b.periodo) || a.numero - b.numero);
 }
@@ -64,7 +65,8 @@ export function render() {
             <option value="TODOS">Todos los tipos</option>${cat.tipo.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}
           </select>
           <select data-role="estado" class="rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green">
-            <option value="TODOS">Todos los estados</option>${STATUSES.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}
+            <option value="ACTIVAS" ${filter.estado === 'ACTIVAS' ? 'selected' : ''}>Activas (sin completadas)</option>
+            <option value="TODOS" ${filter.estado === 'TODOS' ? 'selected' : ''}>Todos los estados</option>${STATUSES.map((s) => `<option value="${esc(s)}" ${filter.estado === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}
           </select>
         </div>
         <div class="flex items-center gap-2">
@@ -99,6 +101,7 @@ export function render() {
 export function mount(root) {
   const readOnly = isReadOnly();
   const tbody = root.querySelector('[data-role="tbody"]');
+  root.querySelector('[data-role="estado"]').value = filter.estado;
 
   function paint() {
     const rows = filtered();
