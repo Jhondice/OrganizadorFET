@@ -123,6 +123,7 @@ export function render(plan = PLANS.DOCENTE) {
 export function mount(root, plan = PLANS.DOCENTE) {
   const readOnly = isReadOnly();
   const tbody = root.querySelector('[data-role="tbody"]');
+  root.querySelector('[data-role="estado"]').value = filter.estado;
 
   function paint() {
     const rows = filtered(plan);

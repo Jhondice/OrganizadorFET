@@ -49,6 +49,13 @@ describe('vistas (sin gráficos de Chart.js, que requieren canvas real)', () => 
     assert.ok(document.querySelector('[role="dialog"]'));
     document.querySelector('#modal-root [data-role="close"]').click();
     div.querySelector('[data-role="q"]').dispatchEvent(new window.Event('input', { bubbles: true }));
+    const statusFilter = div.querySelector('[data-role="estado"]');
+    statusFilter.value = 'TODOS';
+    statusFilter.dispatchEvent(new window.Event('change', { bubbles: true }));
+    assert.equal(div.querySelectorAll('[data-row]').length, store.state.activities.length);
+    statusFilter.value = 'Completada';
+    statusFilter.dispatchEvent(new window.Event('change', { bubbles: true }));
+    assert.equal(div.querySelectorAll('[data-row]').length, store.state.activities.filter((activity) => activity.estado === 'Completada').length);
     div.remove();
     void store;
   });
