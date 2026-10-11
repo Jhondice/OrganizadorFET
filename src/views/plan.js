@@ -11,7 +11,9 @@ import { confirmDialog } from '../ui/confirm.js';
 import { toast } from '../ui/toast.js';
 import { ApiError } from '../api/errors.js';
 
-const filter = { q: '', tipo: 'TODOS', estado: 'TODOS', periodo: 'TODOS' };
+const ACTIVE_FILTER = 'ACTIVAS';
+const HISTORY_FILTER = 'HISTORIAL';
+const filter = { q: '', tipo: 'TODOS', estado: ACTIVE_FILTER, periodo: 'TODOS' };
 
 function filtered() {
   const acts = decorate(state.activities, todayISO());
@@ -19,7 +21,11 @@ function filtered() {
   return acts
     .filter((a) => !q || a.nombre.toLowerCase().includes(q) || a.responsable.toLowerCase().includes(q))
     .filter((a) => filter.tipo === 'TODOS' || a.tipo === filter.tipo)
-    .filter((a) => filter.estado === 'TODOS' || a.estado_efectivo === filter.estado)
+    .filter((a) => {
+      if (filter.estado === HISTORY_FILTER) return a.estado_efectivo === 'Completada';
+      if (filter.estado === ACTIVE_FILTER) return a.estado_efectivo !== 'Completada';
+      return a.estado_efectivo === filter.estado;
+    })
     .filter((a) => filter.periodo === 'TODOS' || a.periodo === filter.periodo)
     .sort((a, b) => a.periodo.localeCompare(b.periodo) || a.numero - b.numero);
 }
@@ -67,7 +73,9 @@ export function render() {
             <option value="TODOS">Todos los tipos</option>${cat.tipo.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}
           </select>
           <select data-role="estado" class="rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green">
-            <option value="TODOS">Todos los estados</option>${STATUSES.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}
+            <option value="${ACTIVE_FILTER}">Actividades activas</option>
+            <option value="${HISTORY_FILTER}">Historial de actividades terminadas</option>
+            ${STATUSES.filter((s) => s !== 'Completada').map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}
           </select>
         </div>
         <div class="flex items-center gap-2">
@@ -107,7 +115,7 @@ export function mount(root) {
     const rows = filtered();
     tbody.innerHTML = rows.length
       ? rows.map((a) => rowHtml(a, readOnly)).join('')
-      : `<tr><td colspan="11">${emptyState('No hay actividades que coincidan con los filtros.', icon('inbox', 'w-8 h-8 mb-1'))}</td></tr>`;
+      : `<tr><td colspan="11">${emptyState(filter.estado === HISTORY_FILTER ? 'No hay actividades terminadas en el historial.' : 'No hay actividades que coincidan con los filtros.', icon('inbox', 'w-8 h-8 mb-1'))}</td></tr>`;
   }
 
   root.querySelector('[data-role="q"]').addEventListener('input', (e) => { filter.q = e.target.value; paint(); });

@@ -34,7 +34,17 @@ describe('vistas (sin gráficos de Chart.js, que requieren canvas real)', () => 
     div.innerHTML = plan.render();
     document.body.appendChild(div);
     assert.doesNotThrow(() => plan.mount(div));
-    assert.ok(div.querySelectorAll('[data-row]').length >= 1);
+    assert.equal(
+      div.querySelectorAll('[data-row]').length,
+      store.state.activities.filter((activity) => activity.estado !== 'Completada').length,
+    );
+    const statusFilter = div.querySelector('[data-role="estado"]');
+    statusFilter.value = 'HISTORIAL';
+    statusFilter.dispatchEvent(new window.Event('change', { bubbles: true }));
+    assert.equal(
+      div.querySelectorAll('[data-row]').length,
+      store.state.activities.filter((activity) => activity.estado === 'Completada').length,
+    );
     div.querySelector('[data-view]').click();
     assert.ok(document.querySelector('[role="dialog"]'));
     document.querySelector('#modal-root [data-role="close"]').click();
