@@ -65,7 +65,7 @@ function rowHtml(a, readOnly) {
 export function render(plan = PLANS.DOCENTE) {
   const cat = state.catalogs;
   const readOnly = isReadOnly();
-  const title = plan === PLANS.ESPECIALIZACION ? 'Plan de actividades de especialización' : 'Plan de actividades';
+  const title = plan === PLANS.ESPECIALIZACION ? 'Plan de actividades de especialización' : 'ING Software';
   return `
     <div class="space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">

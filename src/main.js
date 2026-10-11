@@ -14,7 +14,7 @@ import * as configuracion from './views/configuracion.js';
 
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard', view: dashboard },
-  { id: 'plan', label: 'Plan de actividades', icon: 'list-checks', view: plan },
+  { id: 'plan', label: 'ING Software', icon: 'list-checks', view: plan },
   { id: 'especializacion', label: 'Especialización', icon: 'list-checks', view: especializacion },
   { id: 'informe', label: 'Informes', icon: 'file-text', view: informe },
   { id: 'calendario', label: 'Calendario', icon: 'calendar', view: calendario },
