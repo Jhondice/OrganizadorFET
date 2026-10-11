@@ -11,6 +11,7 @@ import { confirmDialog } from '../ui/confirm.js';
 import { toast } from '../ui/toast.js';
 import { ApiError } from '../api/errors.js';
 
+const ALL_FILTER = 'TODOS';
 const ACTIVE_FILTER = 'ACTIVAS';
 const HISTORY_FILTER = 'HISTORIAL';
 const filter = { q: '', tipo: 'TODOS', estado: ACTIVE_FILTER, periodo: 'TODOS' };
@@ -22,6 +23,7 @@ function filtered(plan = PLANS.DOCENTE) {
     .filter((a) => !q || a.nombre.toLowerCase().includes(q) || a.responsable.toLowerCase().includes(q))
     .filter((a) => filter.tipo === 'TODOS' || a.tipo === filter.tipo)
     .filter((a) => {
+      if (filter.estado === ALL_FILTER) return true;
       if (filter.estado === HISTORY_FILTER) return a.estado_efectivo === 'Completada';
       if (filter.estado === ACTIVE_FILTER) return a.estado_efectivo !== 'Completada';
       return a.estado_efectivo === filter.estado;
@@ -81,9 +83,10 @@ export function render(plan = PLANS.DOCENTE) {
               <option value="TODOS">Todos los tipos</option>${cat.tipo.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}
             </select>
             <select data-role="estado" class="w-full rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green xl:w-auto">
+              <option value="${ALL_FILTER}">Todos los estados</option>
               <option value="${ACTIVE_FILTER}">Actividades activas</option>
-              <option value="${HISTORY_FILTER}">Historial de actividades terminadas</option>
-              ${STATUSES.filter((s) => s !== 'Completada').map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}
+              <option value="${HISTORY_FILTER}">Completadas</option>
+              ${STATUSES.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}
             </select>
           </div>
         </div>

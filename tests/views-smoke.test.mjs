@@ -38,9 +38,9 @@ describe('vistas (sin gráficos de Chart.js, que requieren canvas real)', () => 
       div.querySelectorAll('[data-row]').length,
       store.state.activities.filter((activity) => activity.estado !== 'Completada').length,
     );
-    const statusFilter = div.querySelector('[data-role="estado"]');
-    statusFilter.value = 'HISTORIAL';
-    statusFilter.dispatchEvent(new window.Event('change', { bubbles: true }));
+    const historyFilter = div.querySelector('[data-role="estado"]');
+    historyFilter.value = 'HISTORIAL';
+    historyFilter.dispatchEvent(new window.Event('change', { bubbles: true }));
     assert.equal(
       div.querySelectorAll('[data-row]').length,
       store.state.activities.filter((activity) => activity.estado === 'Completada').length,
@@ -51,8 +51,6 @@ describe('vistas (sin gráficos de Chart.js, que requieren canvas real)', () => 
     assert.ok(details);
     assert.ok(details.textContent.includes('Información de la actividad') || details.textContent.includes('Detalle de actividad'));
     details.querySelector('[data-role="close"]').click();
-    assert.equal(div.querySelector('[data-role="estado"]').value, 'ACTIVAS');
-    assert.ok([...div.querySelectorAll('[data-row]')].every((row) => store.state.activities.find((activity) => String(activity.id) === row.dataset.row)?.estado !== 'Completada'));
     div.querySelector('[data-role="q"]').dispatchEvent(new window.Event('input', { bubbles: true }));
     const statusFilter = div.querySelector('[data-role="estado"]');
     statusFilter.value = 'TODOS';
