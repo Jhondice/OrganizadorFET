@@ -50,12 +50,12 @@ function rowHtml(a, readOnly) {
       <td class="border-r border-slate-100 px-2 py-2.5 text-center">${compactProgressBar(a.avance)}</td>
       <td class="border-r border-slate-100 px-3 py-2.5 text-center">${statusBadge(a.estado_efectivo)}</td>
       <td class="border-r border-slate-100 max-w-xs truncate px-3 py-2.5 italic text-slate-500">${esc(a.observaciones) || '-'}</td>
-      <td class="px-3 py-2.5 text-center">
-        <div class="flex items-center justify-center gap-1">
-          <button data-view="${a.id}" title="Ver detalles" aria-label="Ver detalles de ${esc(a.nombre)}" class="rounded p-1 text-slate-600 hover:bg-slate-100">${icon('search', 'w-4 h-4')}</button>
+      <td class="px-2 py-2.5 text-center">
+        <div class="flex items-center justify-center gap-0.5">
+          <button data-view="${a.id}" title="Ver detalles" aria-label="Ver detalles de ${esc(a.nombre)}" class="grid h-7 w-7 place-items-center rounded-md border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100">${icon('search', 'w-3.5 h-3.5')}</button>
           ${readOnly ? '' : `
-          <button data-edit="${a.id}" title="Editar" class="rounded p-1 text-blue-600 hover:bg-blue-50">${icon('edit-3', 'w-4 h-4')}</button>
-          <button data-delete="${a.id}" title="Eliminar" class="rounded p-1 text-rose-600 hover:bg-rose-50">${icon('trash-2', 'w-4 h-4')}</button>
+          <button data-edit="${a.id}" title="Editar" class="grid h-7 w-7 place-items-center rounded-md border border-blue-200 bg-blue-50 text-blue-600 shadow-sm transition hover:bg-blue-100">${icon('edit-3', 'w-3.5 h-3.5')}</button>
+          <button data-delete="${a.id}" title="Eliminar" class="grid h-7 w-7 place-items-center rounded-md border border-rose-200 bg-rose-50 text-rose-600 shadow-sm transition hover:bg-rose-100">${icon('trash-2', 'w-3.5 h-3.5')}</button>
           `}
         </div>
       </td>
@@ -98,10 +98,10 @@ export function render(plan = PLANS.DOCENTE) {
 
       <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div class="overflow-x-auto">
-          <table class="w-full min-w-[980px] table-fixed border-collapse text-left text-xs break-words">
+          <table class="w-full min-w-[900px] table-fixed border-collapse text-left text-xs break-words">
             <colgroup>
-              <col style="width:4%"><col style="width:20%"><col style="width:12%"><col style="width:8%"><col style="width:9%">
-              <col style="width:8%"><col style="width:8%"><col style="width:7%"><col style="width:8%"><col style="width:10%"><col style="width:6%">
+              <col style="width:4%"><col style="width:18%"><col style="width:11%"><col style="width:8%"><col style="width:9%">
+              <col style="width:8%"><col style="width:8%"><col style="width:7%"><col style="width:8%"><col style="width:12%"><col style="width:7%">
             </colgroup>
             <thead><tr class="bg-fet-green text-[11px] font-semibold uppercase tracking-wider text-white">
               <th class="border-r border-emerald-700 px-3 py-3 text-center">N°</th>
