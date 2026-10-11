@@ -40,17 +40,17 @@ function compactProgressBar(value) {
 function rowHtml(a, readOnly) {
   return `
     <tr class="border-b border-slate-100 hover:bg-slate-50" data-row="${a.id}">
-      <td class="border-r border-slate-100 px-3 py-2.5 text-center font-bold text-slate-600">${a.numero}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 font-semibold text-slate-800">${esc(a.nombre)}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 text-slate-600">${esc(a.linea)}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 text-slate-600">${esc(a.tipo)}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 text-slate-600">${esc(a.responsable)}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 text-slate-500">${formatDate(a.fecha_inicio)}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 text-slate-500">${formatDate(a.fecha_fin)}</td>
-      <td class="border-r border-slate-100 px-2 py-2.5 text-center">${compactProgressBar(a.avance)}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 text-center">${statusBadge(a.estado_efectivo)}</td>
-      <td class="border-r border-slate-100 max-w-xs truncate px-3 py-2.5 italic text-slate-500">${esc(a.observaciones) || '-'}</td>
-      <td class="px-2 py-2.5 text-center">
+      <td class="border-r border-slate-100 px-3 py-2 text-center font-bold text-slate-600">${a.numero}</td>
+      <td class="border-r border-slate-100 px-3 py-2 font-semibold text-slate-800">${esc(a.nombre)}</td>
+      <td class="border-r border-slate-100 px-3 py-2 text-slate-600">${esc(a.linea)}</td>
+      <td class="border-r border-slate-100 px-3 py-2 text-slate-600">${esc(a.tipo)}</td>
+      <td class="border-r border-slate-100 px-3 py-2 text-slate-600">${esc(a.responsable)}</td>
+      <td class="border-r border-slate-100 px-3 py-2 text-slate-500">${formatDate(a.fecha_inicio)}</td>
+      <td class="border-r border-slate-100 px-3 py-2 text-slate-500">${formatDate(a.fecha_fin)}</td>
+      <td class="border-r border-slate-100 px-2 py-2 text-center">${compactProgressBar(a.avance)}</td>
+      <td class="border-r border-slate-100 px-3 py-2 text-center">${statusBadge(a.estado_efectivo)}</td>
+      <td class="border-r border-slate-100 max-w-xs truncate px-3 py-2 italic text-slate-500">${esc(a.observaciones) || '-'}</td>
+      <td class="px-2 py-2 text-center">
         <div class="flex items-center justify-center gap-1">
           <button data-view="${a.id}" title="Ver detalles" aria-label="Ver detalles de ${esc(a.nombre)}" class="grid h-7 w-7 place-items-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50">${icon('search', 'w-3.5 h-3.5')}</button>
           ${readOnly ? '' : `
