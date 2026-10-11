@@ -1,7 +1,7 @@
 import { icon } from '../ui/icons.js';
 import { esc, statusBadge, emptyState } from '../ui/render-helpers.js';
 import { decorate } from '../domain/stats.js';
-import { STATUSES } from '../domain/constants.js';
+import { PLANS, planOf, STATUSES } from '../domain/constants.js';
 import { todayISO } from '../utils/dates.js';
 import { toCsv, downloadFile } from '../utils/csv.js';
 import { state } from '../state/store.js';
@@ -10,7 +10,7 @@ import { toast } from '../ui/toast.js';
 const criteria = { tipo: 'ALL', responsable: 'ALL', estado: 'ALL' };
 
 function apply() {
-  const acts = decorate(state.activities, todayISO());
+  const acts = decorate(state.activities.filter((activity) => planOf(activity) === PLANS.DOCENTE), todayISO());
   return acts
     .filter((a) => criteria.tipo === 'ALL' || a.tipo === criteria.tipo)
     .filter((a) => criteria.responsable === 'ALL' || a.responsable === criteria.responsable)

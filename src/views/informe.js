@@ -4,11 +4,14 @@ import { reportsOf } from '../domain/stats.js';
 import { formatDate } from '../utils/dates.js';
 import { state, isReadOnly, saveReport } from '../state/store.js';
 import { openReportModal } from '../ui/reportModal.js';
+import { PLANS, planOf } from '../domain/constants.js';
 
 let selectedId = null;
 
 function activities() {
-  return [...state.activities].sort((a, b) => a.periodo.localeCompare(b.periodo) || a.numero - b.numero);
+  return state.activities
+    .filter((activity) => planOf(activity) === PLANS.DOCENTE)
+    .sort((a, b) => a.periodo.localeCompare(b.periodo) || a.numero - b.numero);
 }
 
 export function render() {

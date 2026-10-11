@@ -3,11 +3,12 @@ import { decorate, computeKpis, countBy, trendSeries } from '../domain/stats.js'
 import { todayISO } from '../utils/dates.js';
 import { state } from '../state/store.js';
 import { renderChart } from '../services/charts.js';
+import { PLANS, planOf } from '../domain/constants.js';
 
 const RISK_STYLE = { Bajo: 'text-emerald-600', Medio: 'text-amber-600', Alto: 'text-rose-600' };
 
 export function render() {
-  const acts = decorate(state.activities, todayISO());
+  const acts = decorate(state.activities.filter((activity) => planOf(activity) === PLANS.DOCENTE), todayISO());
   const kpis = computeKpis(acts);
 
   return `
@@ -44,7 +45,7 @@ export function render() {
 }
 
 export function mount() {
-  const acts = decorate(state.activities, todayISO());
+  const acts = decorate(state.activities.filter((activity) => planOf(activity) === PLANS.DOCENTE), todayISO());
   const workload = countBy(acts, 'responsable');
   renderChart('chart-workload', {
     type: 'pie',

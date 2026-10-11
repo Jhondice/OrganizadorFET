@@ -1,5 +1,5 @@
 import { isISODate } from '../utils/dates.js';
-import { LIMITS, STATUSES } from './constants.js';
+import { LIMITS, PLANS, STATUSES } from './constants.js';
 
 const str = (v) => (v == null ? '' : String(v).trim());
 const clampInt = (v) => {
@@ -10,6 +10,7 @@ const percentOf = (v) => clampInt(v === '' || v == null ? 0 : v);
 
 export function normalizeActivity(input = {}) {
   const v = {
+    plan: str(input.plan) || PLANS.DOCENTE,
     periodo: str(input.periodo),
     nombre: str(input.nombre),
     tipo: str(input.tipo),
@@ -31,6 +32,7 @@ export function validateActivity(input, catalogs) {
   const value = normalizeActivity(input);
   const errors = {};
   if (!value.periodo) errors.periodo = 'Seleccione el periodo.';
+  if (!Object.values(PLANS).includes(value.plan)) errors.plan = 'Plan de actividades no válido.';
   if (!value.nombre) errors.nombre = 'El nombre es obligatorio.';
   else if (value.nombre.length > LIMITS.nombre) errors.nombre = `Máximo ${LIMITS.nombre} caracteres.`;
   if (!value.tipo) errors.tipo = 'Seleccione el tipo.';

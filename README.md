@@ -37,6 +37,8 @@ No hace falta programar nada para pasar de un modo a otro: se configura desde la
 - **Dashboard** con indicadores clave (programadas, en desarrollo, completadas, pendientes,
   atrasadas, avance general) y gráficos de estado, tipo y línea estratégica.
 - **Plan de actividades**: tabla con búsqueda y filtros, crear/editar/eliminar, exportación a CSV.
+- **Especialización**: pestaña con un plan de actividades independiente, con su propio
+  consecutivo por periodo y las mismas funciones de gestión del plan docente.
 - **Informes de avance**: historial completo por actividad (no se sobrescribe el informe
   anterior); cada informe actualiza automáticamente el % de avance y el estado de la actividad.
 - **Calendario institucional** mensual con las actividades vigentes cada día, coloreadas por estado.
@@ -108,6 +110,11 @@ navegador. Puede restablecer los datos de ejemplo en cualquier momento desde **C
 
 Puede volver a ejecutar `setup()` cuando quiera sin riesgo: es idempotente (no borra datos
 existentes). Si necesita invalidar los tokens actuales, use `rotateTokens` desde el menú.
+
+> **Al actualizar una instalación existente:** copie la versión nueva de `Code.gs`, ejecute
+> `setup()` una vez y cree una nueva versión de la implementación web. Esto añade la columna
+> técnica que separa el plan docente del plan de especialización; las actividades ya existentes
+> se conservan y quedan asignadas automáticamente al plan docente.
 
 ### 2. Publicar el sitio en GitHub Pages
 

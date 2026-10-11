@@ -1,7 +1,7 @@
 import { icon } from '../ui/icons.js';
 import { esc, statusBadge, emptyState } from '../ui/render-helpers.js';
 import { decorate } from '../domain/stats.js';
-import { STATUSES } from '../domain/constants.js';
+import { PLANS, planOf, STATUSES } from '../domain/constants.js';
 import { formatDate, todayISO } from '../utils/dates.js';
 import { toCsv, downloadFile } from '../utils/csv.js';
 import { state, isReadOnly, createActivity, updateActivity, deleteActivity } from '../state/store.js';
@@ -15,8 +15,8 @@ const ACTIVE_FILTER = 'ACTIVAS';
 const HISTORY_FILTER = 'HISTORIAL';
 const filter = { q: '', tipo: 'TODOS', estado: ACTIVE_FILTER, periodo: 'TODOS' };
 
-function filtered() {
-  const acts = decorate(state.activities, todayISO());
+function filtered(plan = PLANS.DOCENTE) {
+  const acts = decorate(state.activities.filter((activity) => planOf(activity) === plan), todayISO());
   const q = filter.q.trim().toLowerCase();
   return acts
     .filter((a) => !q || a.nombre.toLowerCase().includes(q) || a.responsable.toLowerCase().includes(q))
@@ -60,13 +60,15 @@ function rowHtml(a, readOnly) {
     </tr>`;
 }
 
-export function render() {
+export function render(plan = PLANS.DOCENTE) {
   const cat = state.catalogs;
   const readOnly = isReadOnly();
+  const title = plan === PLANS.ESPECIALIZACION ? 'Plan de actividades de especialización' : 'Plan de actividades';
   return `
     <div class="space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
         <div class="flex flex-grow flex-wrap items-center gap-2">
+          <h2 class="w-full text-sm font-bold text-slate-700 sm:w-auto">${title}</h2>
           <div class="relative min-w-[200px] flex-grow sm:flex-grow-0">
             <span class="pointer-events-none absolute left-2.5 top-2.5 text-slate-400">${icon('search', 'w-4 h-4')}</span>
             <input data-role="q" type="text" placeholder="Buscar actividad o responsable..." class="w-full rounded-lg border border-slate-300 py-2 pl-8 pr-3 text-xs focus:outline-none focus:ring-2 focus:ring-fet-green">
@@ -116,12 +118,12 @@ export function render() {
     </div>`;
 }
 
-export function mount(root) {
+export function mount(root, plan = PLANS.DOCENTE) {
   const readOnly = isReadOnly();
   const tbody = root.querySelector('[data-role="tbody"]');
 
   function paint() {
-    const rows = filtered();
+    const rows = filtered(plan);
     tbody.innerHTML = rows.length
       ? rows.map((a) => rowHtml(a, readOnly)).join('')
       : `<tr><td colspan="11">${emptyState(filter.estado === HISTORY_FILTER ? 'No hay actividades terminadas en el historial.' : 'No hay actividades que coincidan con los filtros.', icon('inbox', 'w-8 h-8 mb-1'))}</td></tr>`;
@@ -144,20 +146,20 @@ export function mount(root) {
   });
 
   const newBtn = root.querySelector('[data-role="new"]');
-  if (newBtn) newBtn.addEventListener('click', () => openActivityModal({ catalogs: state.catalogs, onSubmit: (payload) => createActivity(payload) }));
+  if (newBtn) newBtn.addEventListener('click', () => openActivityModal({ catalogs: state.catalogs, onSubmit: (payload) => createActivity({ ...payload, plan }) }));
 
   tbody.addEventListener('click', async (e) => {
     const viewId = e.target.closest('[data-view]')?.dataset.view;
     const editId = e.target.closest('[data-edit]')?.dataset.edit;
     const delId = e.target.closest('[data-delete]')?.dataset.delete;
     if (viewId) {
-      const activity = filtered().find((a) => a.id === Number(viewId));
+      const activity = filtered(plan).find((a) => a.id === Number(viewId));
       if (activity) openActivityDetailsModal(activity);
       return;
     }
     if (editId) {
       const activity = state.activities.find((a) => a.id === Number(editId));
-      if (activity) openActivityModal({ activity, catalogs: state.catalogs, onSubmit: (payload) => updateActivity(activity.id, payload) });
+      if (activity) openActivityModal({ activity, catalogs: state.catalogs, onSubmit: (payload) => updateActivity(activity.id, { ...payload, plan }) });
     }
     if (delId) {
       const activity = state.activities.find((a) => a.id === Number(delId));

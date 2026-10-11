@@ -28,12 +28,13 @@
  *    - Celdas guardadas como texto plano: neutraliza inyección de fórmulas.
  */
 
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.1.0';
 
 const SHEET = { ACT: 'Actividades', REP: 'Informes', CAT: 'Catalogos', LOG: 'Bitacora' };
 
 const COLS = {
-  ACT: ['id', 'periodo', 'numero', 'nombre', 'tipo', 'linea', 'responsable', 'fecha_inicio', 'fecha_fin', 'avance', 'estado', 'observaciones', 'creado', 'actualizado'],
+  // "plan" va al final para que las hojas existentes puedan migrarse sin desplazar columnas.
+  ACT: ['id', 'periodo', 'numero', 'nombre', 'tipo', 'linea', 'responsable', 'fecha_inicio', 'fecha_fin', 'avance', 'estado', 'observaciones', 'creado', 'actualizado', 'plan'],
   REP: ['id', 'actividad_id', 'fecha_reporte', 'avance_realizado', 'dificultades', 'resultados', 'acciones_siguientes', 'porcentaje', 'estado', 'proxima_revision', 'autor', 'creado'],
   CAT: ['catalogo', 'valor'],
   LOG: ['fecha', 'rol', 'accion', 'entidad', 'entidad_id', 'detalle'],
@@ -47,8 +48,10 @@ const NUMERIC = {
 const DATE_KEYS = ['fecha_inicio', 'fecha_fin', 'fecha_reporte', 'proxima_revision'];
 
 const ESTADOS = ['Programada', 'Pendiente', 'En desarrollo', 'Completada', 'Atrasada'];
+const PLAN = { DOCENTE: 'DOCENTE', ESPECIALIZACION: 'ESPECIALIZACION' };
+const PLANES = [PLAN.DOCENTE, PLAN.ESPECIALIZACION];
 const CATALOG_KEYS = ['periodo', 'tipo', 'linea', 'responsable'];
-const EDITABLE_ACT = ['periodo', 'nombre', 'tipo', 'linea', 'responsable', 'fecha_inicio', 'fecha_fin', 'avance', 'estado', 'observaciones'];
+const EDITABLE_ACT = ['plan', 'periodo', 'nombre', 'tipo', 'linea', 'responsable', 'fecha_inicio', 'fecha_fin', 'avance', 'estado', 'observaciones'];
 const LIMITS = { nombre: 200, corto: 80, texto: 2000, obs: 1000, payload: 100000 };
 
 const DEFAULT_CATALOGS = {
@@ -147,7 +150,7 @@ function createActivity_(p) {
   const ts = nowIso_();
   const rec = Object.assign({
     id: nextId_(acts),
-    numero: nextNumero_(acts, v.periodo),
+    numero: nextNumero_(acts, v.periodo, v.plan),
     creado: ts,
     actualizado: ts,
   }, v);
@@ -165,7 +168,9 @@ function updateActivity_(p) {
   const cats = readCatalogs_();
   const v = validateActivity_(merged, cats);
   const rec = Object.assign({}, found.rec, v, { actualizado: nowIso_() });
-  if (v.periodo !== found.rec.periodo) rec.numero = nextNumero_(readAll_('ACT'), v.periodo);
+  if (v.periodo !== found.rec.periodo || v.plan !== planOf_(found.rec)) {
+    rec.numero = nextNumero_(readAll_('ACT').filter(function (a) { return a.id !== found.rec.id; }), v.periodo, v.plan);
+  }
   writeRow_('ACT', found.row, rec);
   ensureCatalogValue_('responsable', v.responsable, cats);
   audit_('editar', 'actividad', rec.id, v.nombre);
@@ -243,6 +248,7 @@ function deleteCatalogItem_(p) {
 
 function validateActivity_(input, cats) {
   const v = {
+    plan: str_(input.plan) || PLAN.DOCENTE,
     periodo: str_(input.periodo),
     nombre: str_(input.nombre),
     tipo: str_(input.tipo),
@@ -256,6 +262,7 @@ function validateActivity_(input, cats) {
   };
   if (v.estado === 'Completada') v.avance = 100;
   const errors = {};
+  if (PLANES.indexOf(v.plan) === -1) errors.plan = 'Plan de actividades no válido.';
   if (!v.periodo) errors.periodo = 'Seleccione el periodo.';
   if (!v.nombre) errors.nombre = 'El nombre es obligatorio.';
   else if (v.nombre.length > LIMITS.nombre) errors.nombre = 'Máximo ' + LIMITS.nombre + ' caracteres.';
@@ -387,8 +394,12 @@ function nextId_(list) {
   return list.reduce(function (m, r) { return Math.max(m, r.id); }, 0) + 1;
 }
 
-function nextNumero_(acts, periodo) {
-  return acts.filter(function (a) { return a.periodo === periodo; }).reduce(function (m, a) { return Math.max(m, a.numero); }, 0) + 1;
+function planOf_(activity) {
+  return activity && activity.plan === PLAN.ESPECIALIZACION ? PLAN.ESPECIALIZACION : PLAN.DOCENTE;
+}
+
+function nextNumero_(acts, periodo, plan) {
+  return acts.filter(function (a) { return a.periodo === periodo && planOf_(a) === plan; }).reduce(function (m, a) { return Math.max(m, a.numero); }, 0) + 1;
 }
 
 function readCatalogs_() {

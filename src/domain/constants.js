@@ -1,4 +1,6 @@
 export const STATUSES = ['Programada', 'Pendiente', 'En desarrollo', 'Completada', 'Atrasada'];
+export const PLANS = { DOCENTE: 'DOCENTE', ESPECIALIZACION: 'ESPECIALIZACION' };
+export const planOf = (activity) => activity?.plan === PLANS.ESPECIALIZACION ? PLANS.ESPECIALIZACION : PLANS.DOCENTE;
 export const CATALOG_KEYS = ['periodo', 'tipo', 'linea', 'responsable'];
 export const CATALOG_LABELS = {
   periodo: 'Periodos',

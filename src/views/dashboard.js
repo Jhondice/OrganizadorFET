@@ -4,6 +4,7 @@ import { decorate, computeKpis, upcoming } from '../domain/stats.js';
 import { formatDate, todayISO } from '../utils/dates.js';
 import { renderChart } from '../services/charts.js';
 import { state, setTab } from '../state/store.js';
+import { PLANS, planOf } from '../domain/constants.js';
 
 const KPI_CARDS = [
   { key: 'total', label: 'Programadas', icon: 'list-checks', accent: 'border-slate-500 text-slate-700 bg-slate-100', hint: 'Total planificado' },
@@ -14,7 +15,7 @@ const KPI_CARDS = [
 ];
 
 function byPeriod() {
-  const acts = decorate(state.activities, todayISO());
+  const acts = decorate(state.activities.filter((activity) => planOf(activity) === PLANS.DOCENTE), todayISO());
   return state.ui.period ? acts.filter((a) => a.periodo === state.ui.period) : acts;
 }
 

@@ -4,6 +4,7 @@ import { state, subscribe, init, setTab, setPeriodFilter, describeError } from '
 import { destroyAllCharts } from './services/charts.js';
 import * as dashboard from './views/dashboard.js';
 import * as plan from './views/plan.js';
+import * as especializacion from './views/especializacion.js';
 import * as informe from './views/informe.js';
 import * as calendario from './views/calendario.js';
 import * as indicadores from './views/indicadores.js';
@@ -13,6 +14,7 @@ import * as configuracion from './views/configuracion.js';
 const TABS = [
   { id: 'dashboard', label: 'Dashboard', icon: 'layout-dashboard', view: dashboard },
   { id: 'plan', label: 'Plan de actividades', icon: 'list-checks', view: plan },
+  { id: 'especializacion', label: 'Especialización', icon: 'list-checks', view: especializacion },
   { id: 'informe', label: 'Informes', icon: 'file-text', view: informe },
   { id: 'calendario', label: 'Calendario', icon: 'calendar', view: calendario },
   { id: 'indicadores', label: 'Indicadores', icon: 'line-chart', view: indicadores },

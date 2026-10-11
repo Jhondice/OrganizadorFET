@@ -53,6 +53,16 @@ describe('vistas (sin gráficos de Chart.js, que requieren canvas real)', () => 
     void store;
   });
 
+  test('especializacion.js muestra un plan independiente', async () => {
+    const especializacion = await import('../src/views/especializacion.js');
+    const div = document.createElement('div');
+    div.innerHTML = especializacion.render();
+    document.body.appendChild(div);
+    assert.doesNotThrow(() => especializacion.mount(div));
+    assert.ok(div.textContent.includes('Plan de actividades de especialización'));
+    div.remove();
+  });
+
   test('informe.js renderiza el historial de una actividad', async () => {
     const informe = await import('../src/views/informe.js');
     const div = document.createElement('div');

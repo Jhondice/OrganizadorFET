@@ -93,6 +93,15 @@ describe('backend/Code.gs — CRUD de actividades', () => {
     assert.equal(c.data.activity.numero, 1); // otro periodo, reinicia
   });
 
+  test('mantiene un consecutivo independiente para el plan de especialización', () => {
+    const env = setup();
+    const docente = env.call('createActivity', { ...activity(), plan: 'DOCENTE' });
+    const especializacion = env.call('createActivity', { ...activity(), plan: 'ESPECIALIZACION' });
+    assert.equal(docente.data.activity.numero, 1);
+    assert.equal(especializacion.data.activity.numero, 1);
+    assert.equal(especializacion.data.activity.plan, 'ESPECIALIZACION');
+  });
+
   test('el estado Completada fuerza el avance a 100 (regla del servidor)', () => {
     const env = setup();
     const created = env.call('createActivity', { ...activity(), avance: 40, estado: 'Completada' });

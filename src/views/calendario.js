@@ -2,7 +2,7 @@ import { icon } from '../ui/icons.js';
 import { esc } from '../ui/render-helpers.js';
 import { MONTHS_ES, pad } from '../utils/dates.js';
 import { decorate } from '../domain/stats.js';
-import { STATUS_STYLE } from '../domain/constants.js';
+import { PLANS, planOf, STATUS_STYLE } from '../domain/constants.js';
 import { state, setCalendarDate, setTab } from '../state/store.js';
 import { todayISO } from '../utils/dates.js';
 
@@ -14,7 +14,7 @@ export function render() {
   const month = d.getMonth(); // 0-based
   const firstDow = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const acts = decorate(state.activities, todayISO());
+  const acts = decorate(state.activities.filter((activity) => planOf(activity) === PLANS.DOCENTE), todayISO());
 
   const cells = [];
   for (let i = 0; i < firstDow; i++) cells.push('<div class="min-h-[90px] rounded bg-slate-100/50"></div>');

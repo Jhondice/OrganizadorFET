@@ -5,7 +5,7 @@
 import { ApiError } from './errors.js';
 import { SEED } from '../data/seed.js';
 import { validateActivity, validateReport } from '../domain/validation.js';
-import { CATALOG_KEYS } from '../domain/constants.js';
+import { CATALOG_KEYS, planOf } from '../domain/constants.js';
 
 const KEY = 'fet.seguimiento.demo.v1';
 const LATENCY_MS = 120;
@@ -39,7 +39,9 @@ export function resetDemoData() {
 const wait = () => new Promise((r) => setTimeout(r, LATENCY_MS));
 const nowIso = () => new Date().toISOString();
 const nextId = (list) => list.reduce((m, r) => Math.max(m, Number(r.id) || 0), 0) + 1;
-const nextNumero = (acts, periodo) => acts.filter((a) => a.periodo === periodo).reduce((m, a) => Math.max(m, a.numero || 0), 0) + 1;
+const nextNumero = (acts, periodo, plan) => acts
+  .filter((a) => a.periodo === periodo && planOf(a) === plan)
+  .reduce((m, a) => Math.max(m, a.numero || 0), 0) + 1;
 const hasValue = (list, value) => (list || []).some((x) => String(x).toLowerCase() === String(value).toLowerCase());
 
 export function createLocalClient() {
@@ -67,7 +69,7 @@ export function createLocalClient() {
       const result = validateActivity(p, db.catalogs);
       if (!result.ok) throw new ApiError('VALIDATION', 'Revise los campos marcados.', result.errors);
       const ts = nowIso();
-      const rec = { id: nextId(db.activities), numero: nextNumero(db.activities, result.value.periodo), ...result.value, creado: ts, actualizado: ts };
+      const rec = { id: nextId(db.activities), numero: nextNumero(db.activities, result.value.periodo, result.value.plan), ...result.value, creado: ts, actualizado: ts };
       db.activities.push(rec);
       if (!hasValue(db.catalogs.responsable, rec.responsable)) db.catalogs.responsable.push(rec.responsable);
       persist(db);
@@ -80,7 +82,9 @@ export function createLocalClient() {
       const result = validateActivity(merged, db.catalogs);
       if (!result.ok) throw new ApiError('VALIDATION', 'Revise los campos marcados.', result.errors);
       const rec = { ...existing, ...result.value, actualizado: nowIso() };
-      if (result.value.periodo !== existing.periodo) rec.numero = nextNumero(db.activities.filter((a) => a.id !== existing.id), result.value.periodo);
+      if (result.value.periodo !== existing.periodo || result.value.plan !== planOf(existing)) {
+        rec.numero = nextNumero(db.activities.filter((a) => a.id !== existing.id), result.value.periodo, result.value.plan);
+      }
       Object.assign(existing, rec);
       if (!hasValue(db.catalogs.responsable, rec.responsable)) db.catalogs.responsable.push(rec.responsable);
       persist(db);
