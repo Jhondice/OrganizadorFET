@@ -35,6 +35,9 @@ describe('vistas (sin gráficos de Chart.js, que requieren canvas real)', () => 
     document.body.appendChild(div);
     assert.doesNotThrow(() => plan.mount(div));
     assert.ok(div.querySelectorAll('[data-row]').length >= 1);
+    div.querySelector('[data-view]').click();
+    assert.ok(document.querySelector('[role="dialog"]'));
+    document.querySelector('#modal-root [data-role="close"]').click();
     div.querySelector('[data-role="q"]').dispatchEvent(new window.Event('input', { bubbles: true }));
     div.remove();
     void store;
