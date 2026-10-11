@@ -86,16 +86,20 @@ export function render() {
 
       <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div class="overflow-x-auto">
-          <table class="w-full border-collapse text-left text-xs">
+          <table class="w-full table-fixed border-collapse text-left text-xs break-words">
+            <colgroup>
+              <col style="width:4%"><col style="width:16%"><col style="width:12%"><col style="width:8%"><col style="width:9%">
+              <col style="width:8%"><col style="width:8%"><col style="width:12%"><col style="width:8%"><col style="width:9%"><col style="width:6%">
+            </colgroup>
             <thead><tr class="bg-fet-green text-[11px] font-semibold uppercase tracking-wider text-white">
-              <th class="w-12 border-r border-emerald-700 px-3 py-3 text-center">N°</th>
-              <th class="min-w-[200px] border-r border-emerald-700 px-3 py-3">Actividad</th>
+              <th class="border-r border-emerald-700 px-3 py-3 text-center">N°</th>
+              <th class="border-r border-emerald-700 px-3 py-3">Actividad</th>
               <th class="border-r border-emerald-700 px-3 py-3">Línea estratégica</th>
               <th class="border-r border-emerald-700 px-3 py-3">Tipo</th>
               <th class="border-r border-emerald-700 px-3 py-3">Responsable</th>
               <th class="border-r border-emerald-700 px-3 py-3">Fecha inicio</th>
               <th class="border-r border-emerald-700 px-3 py-3">Fecha fin</th>
-              <th class="w-32 border-r border-emerald-700 px-3 py-3 text-center">% Avance</th>
+              <th class="border-r border-emerald-700 px-3 py-3 text-center">% Avance</th>
               <th class="border-r border-emerald-700 px-3 py-3 text-center">Estado</th>
               <th class="border-r border-emerald-700 px-3 py-3">Observaciones</th>
               <th class="px-3 py-3 text-center">Acciones</th>
