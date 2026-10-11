@@ -5,6 +5,7 @@ import { formatDate } from '../utils/dates.js';
 import { state, isReadOnly, saveReport } from '../state/store.js';
 import { openReportModal } from '../ui/reportModal.js';
 import { PLANS, planOf } from '../domain/constants.js';
+import { LOGO_FET } from '../ui/brand.js';
 
 let selectedId = null;
 
@@ -48,7 +49,7 @@ export function render() {
         <div id="print-area" class="space-y-4 rounded-xl border border-slate-300 bg-white p-6 shadow-inner">
           <div class="flex items-center justify-between border-b-2 border-fet-green pb-4">
             <div class="flex items-center gap-3">
-              <div class="rounded bg-fet-green px-3 py-1 text-lg font-black text-white">FET</div>
+              <img src="${LOGO_FET}" alt="Logo FET" class="h-12 w-16 object-contain" />
               <div>
                 <h3 class="text-sm font-bold text-slate-800">FUNDACIÓN ESCUELA TECNOLÓGICA DE NEIVA "JESÚS OVIEDO PÉREZ"</h3>
                 <p class="text-xs text-slate-500">FORMATO DE SEGUIMIENTO Y CONTROL — INFORME DE ACTIVIDAD</p>

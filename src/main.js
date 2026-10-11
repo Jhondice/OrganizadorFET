@@ -1,5 +1,6 @@
 import './styles.css';
 import { icon } from './ui/icons.js';
+import { LOGO_FET } from './ui/brand.js';
 import { state, subscribe, init, setTab, setPeriodFilter, describeError } from './state/store.js';
 import { destroyAllCharts } from './services/charts.js';
 import * as dashboard from './views/dashboard.js';
@@ -30,7 +31,7 @@ function shellHtml() {
     <header class="border-b border-slate-200 bg-white shadow-sm">
       <div class="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <div class="flex items-center gap-3">
-          <div class="grid h-11 w-11 place-items-center rounded-xl bg-fet-green text-sm font-black text-white shadow">FET</div>
+          <img src="${LOGO_FET}" alt="Logo Fundación Escuela Tecnológica de Neiva" class="h-14 w-20 shrink-0 object-contain" />
           <div>
             <h1 class="text-sm font-bold leading-tight text-slate-800 sm:text-base">Seguimiento y Control de Actividades</h1>
             <p class="text-[11px] leading-tight text-slate-500">Plan de trabajo docente — Fundación Escuela Tecnológica de Neiva</p>
