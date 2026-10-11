@@ -1,5 +1,5 @@
 import { icon } from '../ui/icons.js';
-import { esc, statusBadge, progressBar, emptyState } from '../ui/render-helpers.js';
+import { esc, statusBadge, emptyState } from '../ui/render-helpers.js';
 import { decorate } from '../domain/stats.js';
 import { STATUSES } from '../domain/constants.js';
 import { formatDate, todayISO } from '../utils/dates.js';
@@ -30,6 +30,11 @@ function filtered() {
     .sort((a, b) => a.periodo.localeCompare(b.periodo) || a.numero - b.numero);
 }
 
+function compactProgressBar(value) {
+  const progress = Math.max(0, Math.min(100, Number(value) || 0));
+  return `<div title="Avance: ${progress}%" class="flex items-center justify-center gap-1"><div class="h-1.5 w-8 overflow-hidden rounded-full bg-slate-200"><div class="h-full bg-fet-green" style="width:${progress}%"></div></div><span class="text-[10px] font-bold text-slate-700">${progress}%</span></div>`;
+}
+
 function rowHtml(a, readOnly) {
   return `
     <tr class="border-b border-slate-100 hover:bg-slate-50" data-row="${a.id}">
@@ -40,7 +45,7 @@ function rowHtml(a, readOnly) {
       <td class="border-r border-slate-100 px-3 py-2.5 text-slate-600">${esc(a.responsable)}</td>
       <td class="border-r border-slate-100 px-3 py-2.5 text-slate-500">${formatDate(a.fecha_inicio)}</td>
       <td class="border-r border-slate-100 px-3 py-2.5 text-slate-500">${formatDate(a.fecha_fin)}</td>
-      <td class="border-r border-slate-100 px-3 py-2.5 text-center">${progressBar(a.avance)}</td>
+      <td class="border-r border-slate-100 px-2 py-2.5 text-center">${compactProgressBar(a.avance)}</td>
       <td class="border-r border-slate-100 px-3 py-2.5 text-center">${statusBadge(a.estado_efectivo)}</td>
       <td class="border-r border-slate-100 max-w-xs truncate px-3 py-2.5 italic text-slate-500">${esc(a.observaciones) || '-'}</td>
       <td class="px-3 py-2.5 text-center">
@@ -88,8 +93,8 @@ export function render() {
         <div class="overflow-x-auto">
           <table class="w-full table-fixed border-collapse text-left text-xs break-words">
             <colgroup>
-              <col style="width:4%"><col style="width:16%"><col style="width:12%"><col style="width:8%"><col style="width:9%">
-              <col style="width:8%"><col style="width:8%"><col style="width:12%"><col style="width:8%"><col style="width:9%"><col style="width:6%">
+              <col style="width:4%"><col style="width:20%"><col style="width:12%"><col style="width:8%"><col style="width:9%">
+              <col style="width:8%"><col style="width:8%"><col style="width:7%"><col style="width:8%"><col style="width:10%"><col style="width:6%">
             </colgroup>
             <thead><tr class="bg-fet-green text-[11px] font-semibold uppercase tracking-wider text-white">
               <th class="border-r border-emerald-700 px-3 py-3 text-center">N°</th>
