@@ -67,25 +67,27 @@ export function render(plan = PLANS.DOCENTE) {
   return `
     <div class="space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-        <div class="flex flex-grow flex-wrap items-center gap-2">
-          <h2 class="w-full text-sm font-bold text-slate-700 sm:w-auto">${title}</h2>
-          <div class="relative min-w-[200px] flex-grow sm:flex-grow-0">
+        <div class="flex w-full flex-col gap-2 lg:w-auto lg:flex-row lg:flex-wrap lg:items-center">
+          <h2 class="w-full text-sm font-bold text-slate-700 lg:w-auto">${title}</h2>
+          <div class="relative w-full min-w-0 lg:min-w-[220px] lg:flex-grow">
             <span class="pointer-events-none absolute left-2.5 top-2.5 text-slate-400">${icon('search', 'w-4 h-4')}</span>
             <input data-role="q" type="text" placeholder="Buscar actividad o responsable..." class="w-full rounded-lg border border-slate-300 py-2 pl-8 pr-3 text-xs focus:outline-none focus:ring-2 focus:ring-fet-green">
           </div>
-          <select data-role="periodo" class="rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green">
-            <option value="TODOS">Todos los periodos</option>${cat.periodo.map((p) => `<option value="${esc(p)}">${esc(p)}</option>`).join('')}
-          </select>
-          <select data-role="tipo" class="rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green">
-            <option value="TODOS">Todos los tipos</option>${cat.tipo.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}
-          </select>
-          <select data-role="estado" class="rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green">
-            <option value="${ACTIVE_FILTER}">Actividades activas</option>
-            <option value="${HISTORY_FILTER}">Historial de actividades terminadas</option>
-            ${STATUSES.filter((s) => s !== 'Completada').map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}
-          </select>
+          <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2 xl:flex xl:w-auto xl:items-center xl:gap-2">
+            <select data-role="periodo" class="w-full rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green xl:w-auto">
+              <option value="TODOS">Todos los periodos</option>${cat.periodo.map((p) => `<option value="${esc(p)}">${esc(p)}</option>`).join('')}
+            </select>
+            <select data-role="tipo" class="w-full rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green xl:w-auto">
+              <option value="TODOS">Todos los tipos</option>${cat.tipo.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}
+            </select>
+            <select data-role="estado" class="w-full rounded-lg border border-slate-300 p-2 text-xs focus:ring-2 focus:ring-fet-green xl:w-auto">
+              <option value="${ACTIVE_FILTER}">Actividades activas</option>
+              <option value="${HISTORY_FILTER}">Historial de actividades terminadas</option>
+              ${STATUSES.filter((s) => s !== 'Completada').map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}
+            </select>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex w-full items-center justify-end gap-2 lg:w-auto">
           <button data-role="export" class="flex items-center gap-1 rounded-lg border border-slate-300 bg-slate-100 px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-200">${icon('download', 'w-3.5 h-3.5')} Exportar CSV</button>
           ${readOnly ? '' : `<button data-role="new" class="flex items-center gap-1.5 rounded-lg bg-fet-green px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-fet-darkgreen">${icon('plus-circle', 'w-4 h-4')} Nueva actividad</button>`}
         </div>
@@ -93,7 +95,7 @@ export function render(plan = PLANS.DOCENTE) {
 
       <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
         <div class="overflow-x-auto">
-          <table class="w-full table-fixed border-collapse text-left text-xs break-words">
+          <table class="w-full min-w-[980px] table-fixed border-collapse text-left text-xs break-words">
             <colgroup>
               <col style="width:4%"><col style="width:20%"><col style="width:12%"><col style="width:8%"><col style="width:9%">
               <col style="width:8%"><col style="width:8%"><col style="width:7%"><col style="width:8%"><col style="width:10%"><col style="width:6%">

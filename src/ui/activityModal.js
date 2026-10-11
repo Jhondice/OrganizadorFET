@@ -30,7 +30,7 @@ export function openActivityModal({ activity, catalogs, onSubmit }) {
             <input name="nombre" value="${esc(v.nombre)}" placeholder="Ej. Preparación de sílabos por asignatura" class="w-full rounded-lg border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-fet-green">
             <p data-err="nombre" class="mt-1 hidden text-[11px] font-semibold text-rose-600"></p>
           </div>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label class="mb-1 block font-bold text-slate-700">Periodo *</label>
               <select name="periodo" class="w-full rounded-lg border border-slate-300 p-2.5 focus:ring-2 focus:ring-fet-green">${opts(catalogs.periodo, v.periodo)}</select>
@@ -42,7 +42,7 @@ export function openActivityModal({ activity, catalogs, onSubmit }) {
               <p data-err="tipo" class="mt-1 hidden text-[11px] font-semibold text-rose-600"></p>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label class="mb-1 block font-bold text-slate-700">Línea estratégica *</label>
               <select name="linea" class="w-full rounded-lg border border-slate-300 p-2.5 focus:ring-2 focus:ring-fet-green">${opts(catalogs.linea, v.linea)}</select>
@@ -55,7 +55,7 @@ export function openActivityModal({ activity, catalogs, onSubmit }) {
               <p data-err="responsable" class="mt-1 hidden text-[11px] font-semibold text-rose-600"></p>
             </div>
           </div>
-          <div class="grid grid-cols-3 gap-3">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div>
               <label class="mb-1 block font-bold text-slate-700">Fecha inicio *</label>
               <input type="date" name="fecha_inicio" value="${esc(v.fecha_inicio)}" class="w-full rounded-lg border border-slate-300 p-2 focus:ring-2 focus:ring-fet-green">

@@ -52,12 +52,12 @@ export function render() {
         ${Object.entries(STATUS_STYLE).map(([k, v]) => `<span class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-full ${v.chip}"></span>${esc(k)}</span>`).join('')}
       </div>
 
-      <div class="overflow-x-auto">
-        <div class="min-w-[650px]">
-          <div class="grid grid-cols-7 gap-1 rounded-t-lg bg-slate-100 py-2 text-center text-xs font-bold uppercase text-slate-600">
+      <div class="overflow-x-auto pb-1">
+        <div class="min-w-[620px] md:min-w-0">
+          <div class="grid grid-cols-7 gap-1 rounded-t-lg bg-slate-100 py-2 text-center text-[10px] font-bold uppercase text-slate-600 sm:text-xs">
             ${WEEKDAYS.map((w) => `<div>${w}</div>`).join('')}
           </div>
-          <div class="grid grid-cols-7 gap-1 rounded-b-lg bg-slate-200 p-1 text-xs">${cells.join('')}</div>
+          <div class="grid grid-cols-7 gap-1 rounded-b-lg bg-slate-200 p-1 text-[10px] sm:text-xs">${cells.join('')}</div>
         </div>
       </div>
     </div>`;

@@ -29,16 +29,16 @@ function shellHtml() {
   const isLocal = state.mode === 'local';
   return `
     <header class="border-b border-slate-200 bg-white shadow-sm">
-      <div class="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <div class="flex items-center gap-3">
-          <img src="${LOGO_FET}" alt="Logo Fundación Escuela Tecnológica de Neiva" class="h-14 w-20 shrink-0 object-contain" />
-          <div>
+      <div class="mx-auto flex max-w-[1400px] flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+        <div class="flex min-w-0 items-center gap-3">
+          <img src="${LOGO_FET}" alt="Logo Fundación Escuela Tecnológica de Neiva" class="h-12 w-16 shrink-0 object-contain sm:h-14 sm:w-20" />
+          <div class="min-w-0">
             <h1 class="text-sm font-bold leading-tight text-slate-800 sm:text-base">Seguimiento y Control de Actividades</h1>
-            <p class="text-[11px] leading-tight text-slate-500">Plan de trabajo docente — Fundación Escuela Tecnológica de Neiva</p>
+            <p class="text-[10px] leading-tight text-slate-500 sm:text-[11px]">Plan de trabajo docente — Fundación Escuela Tecnológica de Neiva</p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <select data-role="period-select" class="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-fet-green">
+        <div class="flex flex-wrap items-center justify-between gap-2 sm:justify-end">
+          <select data-role="period-select" class="w-full rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-fet-green sm:w-auto">
             ${state.catalogs.periodo.map((p) => `<option value="${p}" ${p === state.ui.period ? 'selected' : ''}>${p}</option>`).join('')}
           </select>
           <span title="${isLocal ? 'Modo demostración (datos locales)' : `Conectado · rol ${state.role}`}" class="flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-bold ${isLocal ? 'border-amber-300 bg-amber-50 text-amber-700' : 'border-emerald-300 bg-emerald-50 text-emerald-700'}">
@@ -48,12 +48,12 @@ function shellHtml() {
       </div>
       <nav class="scrollbar-none mx-auto flex max-w-[1400px] gap-1 overflow-x-auto px-4 sm:px-6" data-role="nav">
         ${TABS.map((t) => `
-          <button data-tab="${t.id}" class="flex items-center gap-1.5 whitespace-nowrap border-b-2 px-3 py-2.5 text-xs font-bold transition-colors ${state.ui.tab === t.id ? 'border-fet-green text-fet-green' : 'border-transparent text-slate-500 hover:text-slate-700'}">
+          <button data-tab="${t.id}" class="flex items-center gap-1.5 whitespace-nowrap border-b-2 px-2.5 py-2 text-[10px] font-bold transition-colors sm:px-3 sm:text-xs ${state.ui.tab === t.id ? 'border-fet-green text-fet-green' : 'border-transparent text-slate-500 hover:text-slate-700'}">
             ${icon(t.icon, 'w-4 h-4')} ${t.label}
           </button>`).join('')}
       </nav>
     </header>
-    <main class="mx-auto max-w-[1400px] px-4 py-6 sm:px-6" id="view-root"></main>
+    <main class="mx-auto max-w-[1400px] px-3 py-4 sm:px-6 sm:py-6" id="view-root"></main>
     <footer class="mx-auto max-w-[1400px] px-4 pb-8 pt-2 text-center text-[11px] text-slate-400 sm:px-6">
       Fundación Escuela Tecnológica de Neiva "Jesús Oviedo Pérez" · Código abierto en GitHub
       · Datos ${isLocal ? 'almacenados localmente (modo demostración)' : 'sincronizados con Google Sheets'}

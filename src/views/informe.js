@@ -23,8 +23,8 @@ export function render() {
 
   return `
     <div class="space-y-6">
-      <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div class="mb-4 flex flex-wrap items-center justify-between gap-3 border-b pb-4">
+      <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+        <div class="mb-4 flex flex-col gap-3 border-b pb-4 sm:flex-row sm:items-center sm:justify-between">
           <div class="flex items-center gap-3">
             <div class="rounded-xl bg-fet-green p-3 text-white">${icon('file-check-2', 'w-6 h-6')}</div>
             <div>
@@ -32,7 +32,7 @@ export function render() {
               <p class="text-xs text-slate-500">Historial de seguimiento por actividad del plan de trabajo docente</p>
             </div>
           </div>
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             ${isReadOnly() || !activity ? '' : `<button data-role="new" class="flex items-center gap-1.5 rounded-lg bg-fet-green px-4 py-2 text-xs font-bold text-white shadow-md hover:bg-fet-darkgreen">${icon('plus', 'w-4 h-4')} Nuevo informe</button>`}
             <button data-role="print" class="flex items-center gap-2 rounded-lg bg-slate-800 px-4 py-2 text-xs font-bold text-white shadow-sm hover:bg-slate-900">${icon('printer', 'w-4 h-4')} Imprimir</button>
           </div>
@@ -46,19 +46,19 @@ export function render() {
         </div>
 
         ${!activity ? emptyState('No hay actividades registradas todavía.', icon('inbox', 'w-8 h-8 mb-1')) : `
-        <div id="print-area" class="space-y-4 rounded-xl border border-slate-300 bg-white p-6 shadow-inner">
-          <div class="flex items-center justify-between border-b-2 border-fet-green pb-4">
+        <div id="print-area" class="space-y-4 rounded-xl border border-slate-300 bg-white p-4 shadow-inner sm:p-6">
+          <div class="flex flex-col gap-3 border-b-2 border-fet-green pb-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-center gap-3">
               <img src="${LOGO_FET}" alt="Logo FET" class="h-12 w-16 object-contain" />
               <div>
                 <h3 class="text-sm font-bold text-slate-800">FUNDACIÓN ESCUELA TECNOLÓGICA DE NEIVA "JESÚS OVIEDO PÉREZ"</h3>
-                <p class="text-xs text-slate-500">FORMATO DE SEGUIMIENTO Y CONTROL — INFORME DE ACTIVIDAD</p>
+                <p class="text-[10px] text-slate-500 sm:text-xs">FORMATO DE SEGUIMIENTO Y CONTROL — INFORME DE ACTIVIDAD</p>
               </div>
             </div>
             <span class="rounded-full border border-yellow-300 bg-yellow-100 px-2.5 py-1 text-xs font-bold text-yellow-800">Periodo ${esc(activity.periodo)}</span>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs lg:grid-cols-4">
+          <div class="grid grid-cols-1 gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4 text-xs sm:grid-cols-2 xl:grid-cols-4">
             <div><span class="block text-[10px] uppercase text-slate-400">Número</span><span class="text-sm font-bold text-slate-800">#${activity.numero}</span></div>
             <div><span class="block text-[10px] uppercase text-slate-400">Tipo</span><span class="font-bold text-slate-800">${esc(activity.tipo)}</span></div>
             <div><span class="block text-[10px] uppercase text-slate-400">Responsable</span><span class="font-bold text-slate-800">${esc(activity.responsable)}</span></div>
@@ -67,7 +67,7 @@ export function render() {
 
           <div><h4 class="mb-1 text-xs font-bold uppercase text-slate-500">Título de la actividad</h4><div class="rounded-lg border bg-slate-100 p-3 text-xs font-semibold text-slate-800">${esc(activity.nombre)}</div></div>
 
-          <div class="flex items-center justify-between rounded-lg bg-slate-800 p-4 text-xs text-white">
+          <div class="flex flex-col gap-2 rounded-lg bg-slate-800 p-4 text-xs text-white sm:flex-row sm:items-center sm:justify-between">
             <div>Porcentaje de cumplimiento: <span class="text-lg font-black text-yellow-400">${activity.avance}%</span></div>
             <div>Última actualización: <span class="font-bold text-slate-200">${formatDate(activity.actualizado?.slice(0, 10))}</span></div>
           </div>

@@ -8,9 +8,9 @@ export function openActivityDetailsModal(activity) {
   const status = activity.estado_efectivo || activity.estado;
 
   root.innerHTML = `
-    <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 p-4" data-role="backdrop">
+    <div class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 p-3 sm:p-4" data-role="backdrop">
       <section role="dialog" aria-modal="true" aria-labelledby="activity-details-title" class="my-8 w-full max-w-2xl rounded-2xl bg-white shadow-2xl">
-        <header class="flex items-center justify-between rounded-t-2xl bg-fet-green px-6 py-4 text-white">
+        <header class="flex items-center justify-between rounded-t-2xl bg-fet-green px-4 py-4 text-white sm:px-6">
           <div>
             <p class="text-[11px] font-semibold uppercase tracking-wider text-white/75">Detalle de actividad</p>
             <h3 id="activity-details-title" class="text-base font-bold">Actividad #${esc(activity.numero)}</h3>
@@ -18,7 +18,7 @@ export function openActivityDetailsModal(activity) {
           <button type="button" data-role="close" aria-label="Cerrar detalle" class="rounded p-1 text-white/80 hover:bg-white/10 hover:text-white">${icon('x', 'w-5 h-5')}</button>
         </header>
 
-        <div class="space-y-5 p-6 text-xs">
+        <div class="space-y-5 p-4 text-xs sm:p-6">
           <div>
             <h4 class="text-base font-bold text-slate-800">${esc(activity.nombre)}</h4>
             <div class="mt-2 flex flex-wrap items-center gap-2">
@@ -45,7 +45,7 @@ export function openActivityDetailsModal(activity) {
           </div>
         </div>
 
-        <footer class="flex justify-end border-t border-slate-100 px-6 py-4">
+        <footer class="flex justify-end border-t border-slate-100 px-4 py-4 sm:px-6">
           <button type="button" data-role="close" class="rounded-lg border border-slate-300 px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100">Cerrar</button>
         </footer>
       </section>

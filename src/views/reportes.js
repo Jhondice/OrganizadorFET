@@ -21,20 +21,22 @@ function apply() {
 export function render() {
   const cat = state.catalogs;
   return `
-    <div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-      <div class="mb-6 flex items-center gap-3 border-b pb-4">
-        <div class="rounded-xl bg-fet-green p-3 text-white">${icon('sliders', 'w-6 h-6')}</div>
-        <div><h2 class="text-lg font-bold text-slate-800">Generador de reportes institucionales</h2><p class="text-xs text-slate-500">Configure los criterios para consolidar y exportar la información del plan docente</p></div>
+    <div class="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+      <div class="mb-4 flex flex-col gap-3 border-b pb-4 sm:mb-6 sm:flex-row sm:items-center">
+        <div class="flex items-center gap-3">
+          <div class="rounded-xl bg-fet-green p-3 text-white">${icon('sliders', 'w-6 h-6')}</div>
+          <div><h2 class="text-lg font-bold text-slate-800">Generador de reportes institucionales</h2><p class="text-xs text-slate-500">Configure los criterios para consolidar y exportar la información del plan docente</p></div>
+        </div>
       </div>
 
-      <div class="mb-6 grid grid-cols-1 gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mb-6 grid grid-cols-1 gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs md:grid-cols-2 xl:grid-cols-4">
         <div><label class="mb-1 block font-bold text-slate-700">Tipo de actividad:</label>
           <select data-role="tipo" class="w-full rounded border border-slate-300 p-2 font-medium"><option value="ALL">Todos los tipos</option>${cat.tipo.map((t) => `<option value="${esc(t)}">${esc(t)}</option>`).join('')}</select></div>
         <div><label class="mb-1 block font-bold text-slate-700">Responsable:</label>
           <select data-role="responsable" class="w-full rounded border border-slate-300 p-2 font-medium"><option value="ALL">Todos los responsables</option>${cat.responsable.map((r) => `<option value="${esc(r)}">${esc(r)}</option>`).join('')}</select></div>
         <div><label class="mb-1 block font-bold text-slate-700">Estado de avance:</label>
           <select data-role="estado" class="w-full rounded border border-slate-300 p-2 font-medium"><option value="ALL">Todos los estados</option>${STATUSES.map((s) => `<option value="${esc(s)}">${esc(s)}</option>`).join('')}</select></div>
-        <div class="flex items-end gap-2">
+        <div class="grid grid-cols-2 gap-2 sm:gap-2">
           <button data-role="export" class="flex w-full items-center justify-center gap-1 rounded bg-fet-green p-2 font-bold text-white shadow-sm hover:bg-fet-darkgreen">${icon('file-spreadsheet', 'w-3.5 h-3.5')} Excel / CSV</button>
           <button data-role="print" class="flex w-full items-center justify-center gap-1 rounded bg-slate-800 p-2 font-bold text-white shadow-sm hover:bg-slate-900">${icon('printer', 'w-3.5 h-3.5')} Imprimir</button>
         </div>
@@ -42,7 +44,7 @@ export function render() {
 
       <h3 class="mb-3 text-xs font-bold uppercase text-slate-700">Vista previa del reporte consolidado</h3>
       <div class="overflow-x-auto rounded-lg border border-slate-200">
-        <table class="w-full text-left text-xs">
+        <table class="w-full min-w-[620px] text-left text-xs">
           <thead class="bg-slate-800 text-[10px] font-semibold uppercase text-white"><tr>
             <th class="p-2.5 text-center">N°</th><th class="p-2.5">Actividad</th><th class="p-2.5">Tipo</th><th class="p-2.5">Responsable</th><th class="p-2.5 text-center">% Avance</th><th class="p-2.5 text-center">Estado</th>
           </tr></thead>

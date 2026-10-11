@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: light;
+}
+
 /* Paleta institucional FET (verde y amarillo institucionales). Definir los colores aquí
    (en vez de en la config de JS) es la forma de Tailwind v4 de generar automáticamente
    las utilidades bg-fet-green, text-fet-green, border-fet-green, etc. */
@@ -9,7 +13,23 @@
   --color-fet-yellow: #EDBB00;
 }
 
-html, body { background-color: #f1f5f9; }
+* { box-sizing: border-box; }
+html, body {
+  background-color: #f1f5f9;
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+#app { min-width: 0; }
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { scrollbar-width: none; }
@@ -22,6 +42,23 @@ html, body { background-color: #f1f5f9; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 .animate-spin { animation: spin 1s linear infinite; }
+
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  button, input, select, textarea {
+    min-height: 42px;
+    border-radius: 10px;
+  }
+
+  #toast-root {
+    right: 10px !important;
+    left: 10px !important;
+    top: 10px !important;
+  }
+}
 
 /* ───────── Impresión: sólo el contenido del informe/reporte, sin cabecera ni controles ───────── */
 @media print {

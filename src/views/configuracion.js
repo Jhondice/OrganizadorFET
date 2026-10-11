@@ -35,7 +35,7 @@ export function render() {
             <input name="token" type="password" required placeholder="ADMIN_TOKEN o VIEWER_TOKEN" class="w-full rounded-lg border border-slate-300 p-2.5 text-xs focus:ring-2 focus:ring-fet-green">
           </div>
           <div class="flex items-end">
-            <button type="submit" class="flex w-full items-center justify-center gap-1.5 rounded-lg bg-fet-green px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-fet-darkgreen">${icon('link', 'w-4 h-4')} Conectar</button>
+            <button type="submit" class="flex w-full items-center justify-center gap-1.5 rounded-lg bg-fet-green px-4 py-2.5 text-xs font-bold text-white shadow-md hover:bg-fet-darkgreen sm:w-auto">${icon('link', 'w-4 h-4')} Conectar</button>
           </div>
         </form>
         <p class="mt-2 text-[11px] text-slate-500">Los tokens se generan al ejecutar <code class="rounded bg-slate-100 px-1">setup()</code> en el editor de Apps Script (menú "FET Seguimiento → Mostrar tokens de acceso"). Consulte el README del repositorio para el paso a paso completo.</p>
@@ -56,19 +56,19 @@ export function render() {
         <h2 class="mb-4 flex items-center gap-2 text-base font-bold text-slate-800">${icon('database', 'w-5 h-5 text-fet-green')} Catálogos</h2>
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           ${CATALOG_KEYS.map((key) => `
-          <div>
+          <div class="min-w-0">
             <h3 class="mb-2 text-xs font-bold uppercase text-slate-600">${CATALOG_LABELS[key]}</h3>
             <ul class="mb-2 space-y-1">
               ${state.catalogs[key].length === 0 ? `<li class="text-xs text-slate-400">Sin valores registrados.</li>` :
                 state.catalogs[key].map((v) => `
-                <li class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-1.5 text-xs">
-                  <span class="font-medium text-slate-700">${esc(v)}</span>
-                  ${readOnly ? '' : `<button data-del-cat="${key}" data-val="${esc(v)}" class="text-rose-500 hover:text-rose-700">${icon('x', 'w-3.5 h-3.5')}</button>`}
+                <li class="flex items-center justify-between gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs">
+                  <span class="min-w-0 truncate font-medium text-slate-700">${esc(v)}</span>
+                  ${readOnly ? '' : `<button data-del-cat="${key}" data-val="${esc(v)}" class="shrink-0 text-rose-500 hover:text-rose-700">${icon('x', 'w-3.5 h-3.5')}</button>`}
                 </li>`).join('')}
             </ul>
             ${readOnly ? '' : `
             <form data-add-cat="${key}" class="flex gap-2">
-              <input name="valor" placeholder="Agregar valor…" class="flex-grow rounded-lg border border-slate-300 p-1.5 text-xs focus:ring-2 focus:ring-fet-green">
+              <input name="valor" placeholder="Agregar valor…" class="min-w-0 flex-grow rounded-lg border border-slate-300 p-1.5 text-xs focus:ring-2 focus:ring-fet-green">
               <button type="submit" class="rounded-lg bg-slate-800 px-3 text-xs font-bold text-white hover:bg-slate-900">${icon('plus', 'w-3.5 h-3.5')}</button>
             </form>`}
           </div>`).join('')}

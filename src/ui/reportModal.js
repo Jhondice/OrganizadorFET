@@ -21,7 +21,7 @@ export function openReportModal({ activity, onSubmit }) {
         <form data-role="form" novalidate class="space-y-4 p-6 text-xs">
           <p class="rounded-lg bg-slate-50 border border-slate-200 p-2.5 font-semibold text-slate-700">${esc(activity.nombre)}</p>
           <input type="hidden" name="actividad_id" value="${activity.id}">
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label class="mb-1 block font-bold text-slate-700">Fecha de reporte *</label>
               <input type="date" name="fecha_reporte" value="${todayISO()}" class="w-full rounded-lg border border-slate-300 p-2 focus:ring-2 focus:ring-fet-green">
@@ -37,7 +37,7 @@ export function openReportModal({ activity, onSubmit }) {
             <textarea name="avance_realizado" rows="3" placeholder="Describa el avance alcanzado..." class="w-full rounded-lg border border-slate-300 p-2.5 focus:ring-2 focus:ring-fet-green"></textarea>
             <p data-err="avance_realizado" class="mt-1 hidden text-[11px] font-semibold text-rose-600"></p>
           </div>
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label class="mb-1 block font-bold text-slate-700">Dificultades</label>
               <textarea name="dificultades" rows="2" class="w-full rounded-lg border border-slate-300 p-2.5 focus:ring-2 focus:ring-fet-green"></textarea>
@@ -51,7 +51,7 @@ export function openReportModal({ activity, onSubmit }) {
             <label class="mb-1 block font-bold text-slate-700">Acciones siguientes</label>
             <textarea name="acciones_siguientes" rows="2" class="w-full rounded-lg border border-slate-300 p-2.5 focus:ring-2 focus:ring-fet-green"></textarea>
           </div>
-          <div class="flex flex-wrap items-center gap-4 rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <div class="flex flex-col gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3 sm:flex-row sm:flex-wrap sm:items-center">
             <div class="flex items-center gap-2">
               <label class="font-bold text-slate-700">% Avance actual *</label>
               <input type="number" min="0" max="100" name="porcentaje" value="${activity.avance}" class="w-20 rounded border border-slate-300 p-1.5 text-center font-bold text-fet-green focus:ring-2 focus:ring-fet-green">

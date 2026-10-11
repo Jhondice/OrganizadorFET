@@ -19,7 +19,7 @@ export function toast(message, variant = 'success', duration = 4000) {
   if (!r) return;
   const v = VARIANTS[variant] || VARIANTS.info;
   const el = document.createElement('div');
-  el.className = `pointer-events-auto flex items-start gap-2.5 rounded-xl border ${v.cls} px-4 py-3 shadow-lg text-sm font-medium max-w-sm animate-toast-in`;
+  el.className = `pointer-events-auto flex w-[min(92vw,24rem)] items-start gap-2.5 rounded-xl border ${v.cls} px-3 py-3 shadow-lg text-[12px] font-medium sm:px-4 sm:text-sm max-w-sm animate-toast-in`;
   el.innerHTML = `<span class="mt-0.5 shrink-0 ${v.iconCls}">${icon(v.ic, 'w-4 h-4')}</span><span class="leading-snug">${escapeHtml(message)}</span>`;
   r.appendChild(el);
   setTimeout(() => {
