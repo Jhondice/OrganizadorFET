@@ -51,11 +51,11 @@ function rowHtml(a, readOnly) {
       <td class="border-r border-slate-100 px-3 py-2.5 text-center">${statusBadge(a.estado_efectivo)}</td>
       <td class="border-r border-slate-100 max-w-xs truncate px-3 py-2.5 italic text-slate-500">${esc(a.observaciones) || '-'}</td>
       <td class="px-2 py-2.5 text-center">
-        <div class="flex items-center justify-center gap-0.5">
-          <button data-view="${a.id}" title="Ver detalles" aria-label="Ver detalles de ${esc(a.nombre)}" class="grid h-7 w-7 place-items-center rounded-md border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100">${icon('search', 'w-3.5 h-3.5')}</button>
+        <div class="flex items-center justify-center gap-1">
+          <button data-view="${a.id}" title="Ver detalles" aria-label="Ver detalles de ${esc(a.nombre)}" class="grid h-7 w-7 place-items-center rounded-full border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-50">${icon('search', 'w-3.5 h-3.5')}</button>
           ${readOnly ? '' : `
-          <button data-edit="${a.id}" title="Editar" class="grid h-7 w-7 place-items-center rounded-md border border-blue-200 bg-blue-50 text-blue-600 shadow-sm transition hover:bg-blue-100">${icon('edit-3', 'w-3.5 h-3.5')}</button>
-          <button data-delete="${a.id}" title="Eliminar" class="grid h-7 w-7 place-items-center rounded-md border border-rose-200 bg-rose-50 text-rose-600 shadow-sm transition hover:bg-rose-100">${icon('trash-2', 'w-3.5 h-3.5')}</button>
+          <button data-edit="${a.id}" title="Editar" class="grid h-7 w-7 place-items-center rounded-full border border-blue-100 bg-blue-50 text-blue-600 transition hover:border-blue-200 hover:bg-blue-100">${icon('edit-3', 'w-3.5 h-3.5')}</button>
+          <button data-delete="${a.id}" title="Eliminar" class="grid h-7 w-7 place-items-center rounded-full border border-rose-100 bg-rose-50 text-rose-600 transition hover:border-rose-200 hover:bg-rose-100">${icon('trash-2', 'w-3.5 h-3.5')}</button>
           `}
         </div>
       </td>
